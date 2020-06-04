@@ -5,6 +5,7 @@ const fetchMyIP = function(callback) {
   request(url,(error,response,body) => {
     if (error) {
       callback(error,null);
+      return;
     }
     
     if (response.statusCode !== 200) {
@@ -19,4 +20,23 @@ const fetchMyIP = function(callback) {
   });
 };
 
-module.exports = {fetchMyIP};
+const fetchCoordByIP = function(ip,callback) {
+  const url = `https://ipvigilante.com/json/${ip}`;
+  request(url,(error,response,body) => {
+    if (error) {
+      callback(error,null);
+    }
+    
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching coordinates for  IP: ${body}`), null);
+      return;
+    }
+    const {latitude,longitude} = JSON.parse(body).data;
+    callback(null,{latitude,longitude});
+
+
+    
+  });
+};
+
+module.exports = {fetchMyIP,fetchCoordByIP};
