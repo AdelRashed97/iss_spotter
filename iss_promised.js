@@ -5,4 +5,10 @@ const fetchMYIP = function() {
   return request(url);
 };
 
-module.exports = {fetchMYIP};
+const fetchCoordByIP = function(body) {
+  const ip = JSON.parse(body).ip;
+  const url = `https://ipvigilante.com/json/${ip}`;
+  return request(url);
+}
+
+module.exports = {fetchMYIP,fetchCoordByIP};
